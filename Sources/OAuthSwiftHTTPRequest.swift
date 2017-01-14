@@ -411,7 +411,7 @@ public struct URLSessionFactory {
     public static let `default` = URLSessionFactory()
     
     public var configuration = URLSessionConfiguration.default
-    public var queue = OperationQueue.main
+    public var queue: () -> OperationQueue? = { OperationQueue.main }
     // An optional delegate for the URLSession
     public var delegate: URLSessionDelegate?
     
@@ -420,7 +420,7 @@ public struct URLSessionFactory {
     
     // Create a new URLSession
     func build() -> URLSession {
-        return URLSession(configuration: self.configuration, delegate: self.delegate, delegateQueue: self.queue)
+        return URLSession(configuration: self.configuration, delegate: self.delegate, delegateQueue: self.queue())
     }
 }
 
